@@ -6,6 +6,7 @@ class Repository {
   DatabaseConnection? _connection;
   //String _baseUrl = 'https://ecom-api.lutforrahman.com/api';
   final String _baseUrl = 'https://myconstituency.in/ecom-api/api';
+  //final String _baseUrl = 'https://myconstituency.in/myconstituency/api';
   Repository(){
     _connection = DatabaseConnection();
   }

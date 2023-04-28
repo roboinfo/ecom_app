@@ -29,7 +29,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
       var model = Order();
       model.id = order['id'];
       model.quantity = order['quantity'];
-      model.amount = double.tryParse(order['amount'].toString())!;
+      model.amount = double.tryParse(order['amount'].toString());
       model.product.name = order['product']['name'];
       model.product.photo = order['product']['photo'];
 

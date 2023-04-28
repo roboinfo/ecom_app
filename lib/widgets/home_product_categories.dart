@@ -5,7 +5,7 @@ import 'home_product_category.dart';
 
 class HomeProductCategories extends StatefulWidget {
   final List<Category> categoryList;
-  HomeProductCategories({required this.categoryList});
+  const HomeProductCategories({required this.categoryList});
   @override
   _HomeProductCategoriesState createState() => _HomeProductCategoriesState();
 }
@@ -13,7 +13,7 @@ class HomeProductCategories extends StatefulWidget {
 class _HomeProductCategoriesState extends State<HomeProductCategories> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 205,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,

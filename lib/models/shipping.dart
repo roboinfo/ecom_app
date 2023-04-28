@@ -2,14 +2,14 @@ class Shipping {
   int? id;
   String? name;
   String? email;
-  String? address;
+  String? adress;
 
   toJson(){
     return {
       'id' : id.toString(),
       'name' : name.toString(),
       'email' : email,
-      'address' : address
+      'address' : adress
     };
   }
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:ecom_app/models/product.dart';
 import 'package:ecom_app/models/shipping.dart';
-import 'package:ecom_app/screens/payment_screen.dart';
+import 'package:ecom_app/screens/choose_payment_method.dart';
 import 'package:ecom_app/services/shipping_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -22,7 +22,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   final email = TextEditingController();
 
-  final address = TextEditingController();
+  final adress = TextEditingController();
 
 
 
@@ -96,7 +96,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               padding: const EdgeInsets.only(
                   left: 28.0, top: 14.0, right: 28.0, bottom: 14.0),
               child: TextField(
-                controller: address,
+                controller: adress,
                 maxLines: 3,
                 decoration:
                     const InputDecoration(hintText: 'Address', labelText: 'Address'),
@@ -113,7 +113,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       var shipping = Shipping();
                       shipping.name = name.text;
                       shipping.email = email.text;
-                      shipping.address = address.text;
+                      shipping.adress = adress.text;
                       _shipping(context, shipping);
                     },
                     child: const Text('Continue to Payment',
@@ -128,66 +128,66 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  // void _shipping(context, Shipping shipping) async {
-  //   var shippingService = ShippingService();
-  //   var shippingData = await shippingService.addShipping(shipping);
-  //   var result =await json.decode(shippingData.body);
-  //
-  //   if (result['result'] == true) {
-  //     Navigator.push(
-  //         context,
-  //         MaterialPageRoute(
-  //             builder: (context) => PaymentScreen(
-  //                   cartItems: widget.cartItems, paymentType: '',
-  //                 )));
-  //   } else {
-  //     _showSnackMessage(const Text('Failed to add shipping', style: TextStyle(color: Colors.red),));
-  //   }
-  // }
+  void _shipping(context, Shipping shipping) async {
+    var shippingService = ShippingService();
+    var shippingData = await shippingService.addShipping(shipping);
+    var result =await json.decode(shippingData.body);
 
-  Future<void> _shipping(BuildContext context, Shipping shipping) async {
-    try {
-      var shippingService = ShippingService();
-      var shippingData = await shippingService.addShipping(shipping);
-      var result = json.decode(shippingData.body) as Map<String, dynamic>;
-
-      if (result['result'] == true) {
-        Navigator.push(
+    if (result['result'] == true) {
+      Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PaymentScreen(
-              cartItems: widget.cartItems,
-              paymentType: '',
-            ),
-          ),
-        );
-      } else {
-        _showSnackbarMessage(
-          context,
-          const Text(
-            'Failed to add shipping',
-            style: TextStyle(color: Colors.red),
-          ),
-        );
-      }
-    } catch (e) {
-      _showSnackbarMessage(
-        context,
-        const Text(
-          'An error occurred while adding shipping.',
-          style: TextStyle(color: Colors.red),
-        ),
-      );
+              builder: (context) => ChoosePaymentOption(
+                    cartItems: widget.cartItems,
+                  )));
+    } else {
+      _showSnackMessage(const Text('Failed to add shipping', style: TextStyle(color: Colors.red),));
     }
   }
 
-  void _showSnackbarMessage(BuildContext context, Widget message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: message,
-      ),
-    );
-  }
+  // Future<void> _shipping(BuildContext context, Shipping shipping) async {
+  //   try {
+  //     var shippingService = ShippingService();
+  //     var shippingData = await shippingService.addShipping(shipping);
+  //     var result = json.decode(shippingData.body) as Map<String, dynamic>;
+  //
+  //     if (result['result'] == true) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => PaymentScreen(
+  //             cartItems: widget.cartItems,
+  //             paymentType: '',
+  //           ),
+  //         ),
+  //       );
+  //     } else {
+  //       _showSnackbarMessage(
+  //         context,
+  //         const Text(
+  //           'Failed to add shipping',
+  //           style: TextStyle(color: Colors.red),
+  //         ),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     _showSnackbarMessage(
+  //       context,
+  //       const Text(
+  //         'An error occurred while adding shipping.',
+  //         style: TextStyle(color: Colors.red),
+  //       ),
+  //     );
+  //   }
+  // }
+  //
+  // void _showSnackbarMessage(BuildContext context, Widget message) {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: message,
+  //     ),
+  //   );
+  // }
 
 
 }

@@ -170,13 +170,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
 
   void _makePayment(BuildContext context, Payment payment) async {
-    PaymentService _paymentService = PaymentService();
-    var paymentData = await _paymentService.makePayment(payment);
+    PaymentService paymentService = PaymentService();
+    var paymentData = await paymentService.makePayment(payment);
     var result = json.decode(paymentData.body);
     if (result['result'] == true) {
-      CartService _cartService = CartService();
+      CartService cartService = CartService();
       this.widget.cartItems.forEach((cartItem){
-        _cartService.deleteCartItemById(cartItem.id!);
+        cartService.deleteCartItemById(cartItem.id!);
       });
       _showPaymentSuccessMessage(context);
       Timer(Duration(seconds: 2), () {

@@ -5,12 +5,14 @@ import 'package:ecom_app/delegates/product_search.dart';
 import 'package:ecom_app/helpers/side_drawer_navigation.dart';
 import 'package:ecom_app/models/category.dart';
 import 'package:ecom_app/models/product.dart';
+import 'package:ecom_app/models/upicategory.dart';
 import 'package:ecom_app/pages/slide.dart';
 import 'package:ecom_app/screens/cart_screen.dart';
 import 'package:ecom_app/services/cart_service.dart';
 import 'package:ecom_app/services/category_service.dart';
 import 'package:ecom_app/services/product_service.dart';
 import 'package:ecom_app/services/slider_service.dart';
+import 'package:ecom_app/services/upicategory_service.dart';
 import 'package:ecom_app/widgets/carousel_slider.dart';
 import 'package:ecom_app/widgets/home_hot_products.dart';
 import 'package:ecom_app/widgets/home_new_arrival_products.dart';
@@ -25,11 +27,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+
+
   SliderService _sliderService = SliderService();
   CategoryService _categoryService = CategoryService();
+
   ProductService _productService = ProductService();
 
   List<Category> _categoryList = <Category>[];
+
   List<Product> _productList = <Product>[];
   List<Product> _allProductList = <Product>[];
   List<Product> _newArrivalproductList = <Product>[];
@@ -39,11 +46,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   var items = [];
 
+
+
   @override
   void initState() {
     super.initState();
     //_getAllSliders();
     _getAllCategories();
+
     _getAllHotProducts();
     _getAllNewArrivalProducts();
     _getCartItems();
@@ -93,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
+
+
 
   _getAllProducts() async {
     var products = await _productService.getAllProducts();
@@ -299,6 +311,8 @@ class _HomeScreenState extends State<HomeScreen> {
               HomeProductCategories(
                 categoryList: _categoryList,
               ),
+
+              
               const Padding(
                 padding: EdgeInsets.all(10.0),
                 child: Text('Hot Products'),
@@ -315,6 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           )),
+      
     );
   }
 }
