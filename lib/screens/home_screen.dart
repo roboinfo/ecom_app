@@ -3,13 +3,13 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecom_app/delegates/product_search.dart';
 import 'package:ecom_app/helpers/side_drawer_navigation.dart';
-import 'package:ecom_app/models/category.dart';
+import 'package:ecom_app/models/productcategory.dart';
 import 'package:ecom_app/models/product.dart';
 import 'package:ecom_app/models/upicategory.dart';
 import 'package:ecom_app/pages/slide.dart';
 import 'package:ecom_app/screens/cart_screen.dart';
 import 'package:ecom_app/services/cart_service.dart';
-import 'package:ecom_app/services/category_service.dart';
+import 'package:ecom_app/services/productcategory_service.dart';
 import 'package:ecom_app/services/product_service.dart';
 import 'package:ecom_app/services/slider_service.dart';
 import 'package:ecom_app/services/upicategory_service.dart';
@@ -31,11 +31,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
   SliderService _sliderService = SliderService();
-  CategoryService _categoryService = CategoryService();
+  ProductCategoryService _categoryService = ProductCategoryService();
 
   ProductService _productService = ProductService();
 
-  List<Category> _categoryList = <Category>[];
+  List<ProductCategory> _productcategoryList = <ProductCategory>[];
 
   List<Product> _productList = <Product>[];
   List<Product> _allProductList = <Product>[];
@@ -52,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     //_getAllSliders();
-    _getAllCategories();
+    _getAllProductCategories();
 
     _getAllHotProducts();
     _getAllNewArrivalProducts();
@@ -90,16 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
   //   });
   // }
 
-  _getAllCategories() async {
-    var categories = await _categoryService.getCategories();
+  _getAllProductCategories() async {
+    var categories = await _categoryService.getProductCategories();
     var result = json.decode(categories.body);
     result['data'].forEach((data) {
-      var model = Category();
+      var model = ProductCategory();
       model.id = data['id'];
-      model.name = data['categoryName'];
-      model.icon = data['categoryIcon'];
+      model.name = data['name'];
+      model.icon = data['icon'];
       setState(() {
-        _categoryList.add(model);
+        _productcategoryList.add(model);
       });
     });
   }
@@ -309,7 +309,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text('Product Categories'),
               ),
               HomeProductCategories(
-                categoryList: _categoryList,
+                categoryList: _productcategoryList,
               ),
 
               

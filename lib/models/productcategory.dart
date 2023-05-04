@@ -1,4 +1,4 @@
-class Category {
+class ProductCategory {
   int? id;
   String? name;
   String? icon;

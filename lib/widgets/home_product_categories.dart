@@ -1,10 +1,10 @@
-import 'package:ecom_app/models/category.dart';
+import 'package:ecom_app/models/productcategory.dart';
 import 'package:flutter/material.dart';
 
 import 'home_product_category.dart';
 
 class HomeProductCategories extends StatefulWidget {
-  final List<Category> categoryList;
+  final List<ProductCategory> categoryList;
   const HomeProductCategories({required this.categoryList});
   @override
   _HomeProductCategoriesState createState() => _HomeProductCategoriesState();

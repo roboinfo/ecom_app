@@ -1,9 +1,9 @@
-import 'package:ecom_app/models/category.dart';
+import 'package:ecom_app/models/productcategory.dart';
 import 'package:ecom_app/screens/products_by_category_screen.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatefulWidget {
-  final Category category;
+  final ProductCategory category;
   CategoryWidget(this.category);
   @override
   _CategoryWidgetState createState() => _CategoryWidgetState();
