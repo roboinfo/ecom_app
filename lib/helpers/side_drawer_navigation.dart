@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../screens/complaint_screen.dart';
+
 
 class SideDrawerNavigation extends StatefulWidget {
   @override
@@ -142,7 +144,26 @@ class _SideDrawerNavigationState extends State<SideDrawerNavigation> {
                   ),
                 ),
               ),
-              
+
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  ComplaintScreen(cartItems: [],)));
+                },
+                child: const ListTile(
+                  title: Text(
+                    'ComplaintScreen',
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  leading: Icon(
+                    Icons.list,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
               
               InkWell(
                 onTap: () {
