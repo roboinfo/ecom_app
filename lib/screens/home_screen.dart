@@ -3,21 +3,18 @@ import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecom_app/delegates/product_search.dart';
 import 'package:ecom_app/helpers/side_drawer_navigation.dart';
-import 'package:ecom_app/models/productcategory.dart';
 import 'package:ecom_app/models/product.dart';
-import 'package:ecom_app/models/upicategory.dart';
-import 'package:ecom_app/pages/slide.dart';
+import 'package:ecom_app/models/productcategory.dart';
 import 'package:ecom_app/screens/cart_screen.dart';
 import 'package:ecom_app/services/cart_service.dart';
-import 'package:ecom_app/services/productcategory_service.dart';
 import 'package:ecom_app/services/product_service.dart';
+import 'package:ecom_app/services/productcategory_service.dart';
 import 'package:ecom_app/services/slider_service.dart';
-import 'package:ecom_app/services/upicategory_service.dart';
-import 'package:ecom_app/widgets/carousel_slider.dart';
 import 'package:ecom_app/widgets/home_hot_products.dart';
 import 'package:ecom_app/widgets/home_new_arrival_products.dart';
 import 'package:ecom_app/widgets/home_product_categories.dart';
 import 'package:flutter/material.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -27,9 +24,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-
   SliderService _sliderService = SliderService();
   ProductCategoryService _categoryService = ProductCategoryService();
 
@@ -44,21 +38,19 @@ class _HomeScreenState extends State<HomeScreen> {
   CartService _cartService = CartService();
   late List<Product> _cartItems;
 
-  var items = [];
+  final List<String> items = [];
 
-
+  //final List<String> imagesList = [items];
 
   @override
   void initState() {
     super.initState();
-    //_getAllSliders();
+    _getAllSliders();
     _getAllProductCategories();
-
     _getAllHotProducts();
     _getAllNewArrivalProducts();
     _getCartItems();
     _getAllProducts();
-
   }
 
   _getCartItems() async {
@@ -80,15 +72,16 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // _getAllSliders() async {
-  //   var sliders = await _sliderService.getSliders();
-  //   var result = json.decode(sliders.body);
-  //   result['data'].forEach((data) {
-  //     setState(() {
-  //       items.add(NetworkImage(data['image_url']));
-  //     });
-  //   });
-  // }
+  _getAllSliders() async {
+    var sliders = await _sliderService.getSliders();
+    var result = json.decode(sliders.body);
+    result['data'].forEach((data) {
+      setState(() {
+        items.add(data['image_url'].toString());
+      });
+    });
+    // print(result);
+  }
 
   _getAllProductCategories() async {
     var categories = await _categoryService.getProductCategories();
@@ -103,8 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
       });
     });
   }
-
-
 
   _getAllProducts() async {
     var products = await _productService.getAllProducts();
@@ -160,10 +151,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -172,9 +159,13 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('eComm App'),
         backgroundColor: Colors.redAccent,
         actions: <Widget>[
-          IconButton(icon: const Icon(Icons.search), onPressed: (){
-            showSearch(context: context, delegate: ProductSearch(products: _allProductList));
-          }),
+          IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: ProductSearch(products: _allProductList));
+              }),
           InkWell(
             onTap: () {
               Navigator.push(
@@ -222,114 +213,55 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Container(
           child: ListView(
-            children: <Widget>[
-              //slide(),
-              //carouselSlider(items),
+        children: <Widget>[
 
-              CarouselSlider(
-                items: [
-
-                  //1st Image of Slider
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: NetworkImage('https://myconstituency.in/ecom-api/public/37278.png'),
+          SizedBox(
+            height: 200,
+            child: CarouselSlider(
+              options: CarouselOptions(
+                aspectRatio: 16 / 9,
+                autoPlay: true,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                //autoPlayInterval: Duration(milliseconds: 1000),
+                autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                enlargeCenterPage: true,
+                scrollDirection: Axis.horizontal,
+              ),
+              items: items
+                  .map((item) => Image(
+                        image: NetworkImage(
+                          item,
+                        ),
                         fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+                      ))
+                  .toList(),
+            ),
+          ),
 
-                  //2nd Image of Slider
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: NetworkImage("https://myconstituency.in/ecom-api/public/31641.jpg"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('Product Categories'),
+          ),
+          HomeProductCategories(
+            categoryList: _productcategoryList,
+          ),
 
-                  //3rd Image of Slider
-                  Container(
-                    margin: EdgeInsets.all(6.0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      image: DecorationImage(
-                        image: NetworkImage("https://myconstituency.in/ecom-api/public/16842.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-
-                  //4th Image of Slider
-                  // Container(
-                  //   margin: EdgeInsets.all(6.0),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8.0),
-                  //     image: DecorationImage(
-                  //       image: NetworkImage("ADD IMAGE URL HERE"),
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ),
-                  // ),
-                  //
-                  // //5th Image of Slider
-                  // Container(
-                  //   margin: EdgeInsets.all(6.0),
-                  //   decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8.0),
-                  //     image: DecorationImage(
-                  //       image: NetworkImage("ADD IMAGE URL HERE"),
-                  //       fit: BoxFit.cover,
-                  //     ),
-                  //   ),
-                  // ),
-
-                ],
-
-                //Slider Container properties
-                options: CarouselOptions(
-                  height: 180.0,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  aspectRatio: 16 / 9,
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  enableInfiniteScroll: true,
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  viewportFraction: 0.8,
-                ),
-              ),
-
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Product Categories'),
-              ),
-              HomeProductCategories(
-                categoryList: _productcategoryList,
-              ),
-
-              
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('Hot Products'),
-              ),
-              HomeHotProducts(
-                productList: _productList,
-              ),
-              const Padding(
-                padding: EdgeInsets.all(10.0),
-                child: Text('New Arrival Products'),
-              ),
-              HomeNewArrivalProducts(
-                productList: _newArrivalproductList,
-              )
-            ],
-          )),
-      
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('Hot Products'),
+          ),
+          HomeHotProducts(
+            productList: _productList,
+          ),
+          const Padding(
+            padding: EdgeInsets.all(10.0),
+            child: Text('New Arrival Products'),
+          ),
+          HomeNewArrivalProducts(
+            productList: _newArrivalproductList,
+          )
+        ],
+      )),
     );
   }
 }
