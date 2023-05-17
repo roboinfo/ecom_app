@@ -3,6 +3,7 @@ import 'package:ecom_app/screens/login_screen.dart';
 import 'package:ecom_app/screens/order_list_screen.dart';
 import 'package:ecom_app/screens/privatedonation_screen.dart';
 import 'package:ecom_app/screens/vregistration_screen.dart';
+import 'package:ecom_app/widgets/video_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -135,6 +136,26 @@ class _SideDrawerNavigationState extends State<SideDrawerNavigation> {
                 child: const ListTile(
                   title: Text(
                     'volunteer',
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  leading: Icon(
+                    Icons.list,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  VideoSlider()));
+                },
+                child: const ListTile(
+                  title: Text(
+                    'video',
                     style: TextStyle(color: Colors.white),
                   ),
 
