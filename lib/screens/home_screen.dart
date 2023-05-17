@@ -10,9 +10,11 @@ import 'package:ecom_app/services/cart_service.dart';
 import 'package:ecom_app/services/product_service.dart';
 import 'package:ecom_app/services/productcategory_service.dart';
 import 'package:ecom_app/services/slider_service.dart';
+import 'package:ecom_app/widgets/carousel_slider.dart';
 import 'package:ecom_app/widgets/home_hot_products.dart';
 import 'package:ecom_app/widgets/home_new_arrival_products.dart';
 import 'package:ecom_app/widgets/home_product_categories.dart';
+import 'package:ecom_app/widgets/video_slider.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  SliderService _sliderService = SliderService();
+
   ProductCategoryService _categoryService = ProductCategoryService();
 
   ProductService _productService = ProductService();
@@ -38,14 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
   CartService _cartService = CartService();
   late List<Product> _cartItems;
 
-  final List<String> items = [];
+
 
   //final List<String> imagesList = [items];
 
   @override
   void initState() {
     super.initState();
-    _getAllSliders();
     _getAllProductCategories();
     _getAllHotProducts();
     _getAllNewArrivalProducts();
@@ -72,16 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  _getAllSliders() async {
-    var sliders = await _sliderService.getSliders();
-    var result = json.decode(sliders.body);
-    result['data'].forEach((data) {
-      setState(() {
-        items.add(data['image_url'].toString());
-      });
-    });
-    // print(result);
-  }
+
 
   _getAllProductCategories() async {
     var categories = await _categoryService.getProductCategories();
@@ -215,28 +207,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
         children: <Widget>[
 
-          SizedBox(
-            height: 200,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                aspectRatio: 16 / 9,
-                autoPlay: true,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                //autoPlayInterval: Duration(milliseconds: 1000),
-                autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                enlargeCenterPage: true,
-                scrollDirection: Axis.horizontal,
-              ),
-              items: items
-                  .map((item) => Image(
-                        image: NetworkImage(
-                          item,
-                        ),
-                        fit: BoxFit.cover,
-                      ))
-                  .toList(),
-            ),
-          ),
+          //carouselSlider(),
+
+          VideoSlider(),
 
           const Padding(
             padding: EdgeInsets.all(10.0),
