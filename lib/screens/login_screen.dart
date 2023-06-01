@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:ecom_app/models/product.dart';
 import 'package:ecom_app/models/user.dart';
+import 'package:ecom_app/screens/forget_password.dart';
 import 'package:ecom_app/screens/home_screen.dart';
 import 'package:ecom_app/screens/registration_screen.dart';
 import 'package:ecom_app/services/user_service.dart';
@@ -149,6 +150,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: FittedBox(child: Text('Register your account')),
                 ),
+
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                    );
+                    ;
+                  },
+                  child: FittedBox(child: Text('Forget Password')),
+                ),
+
               ],
             ),
           ],
